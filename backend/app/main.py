@@ -3,7 +3,7 @@ import os
 import shutil
 
 from app.resume_parser import extract_text
-
+from app.skill_extractor import extract_skills
 
 app = FastAPI()
 
@@ -29,8 +29,10 @@ async def upload_resume(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     text = extract_text(file_path)
+    skills = extract_skills(text)
 
     return {
-        "filename": file.filename,
-        "text": text
-    }
+    "filename": file.filename,
+    "skills": skills,
+    "text": text
+}
